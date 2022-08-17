@@ -9,9 +9,12 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@zaubermaerchen/vue3-slick": "^0.1.0",
     "vue": "^3.2.37"
   },
   "devDependencies": {
+    "@types/node": "^18.7.6",
+    "@types/slick-carousel": "^1.6.37",
     "@vitejs/plugin-vue": "^3.0.3",
     "typescript": "^4.6.4",
     "vite": "^3.0.7",

@@ -1,31 +1,49 @@
 <script setup lang="ts">
-// This starter template is using Vue 3 <script setup> SFCs
-// Check out https://vuejs.org/api/sfc-script-setup.html#script-setup
-import HelloWorld from './components/HelloWorld.vue'
+import { ref } from 'vue';
+import Slick from '@zaubermaerchen/vue3-slick';
+import 'slick-carousel/slick/slick.css';
+
+const slickRef = ref<InstanceType<typeof Slick> | null>(null);
+
+const slickOptions: JQuerySlickOptions = {
+    autoplay: false,
+    arrows: false,
+    infinite: false,
+    lazyLoad: 'progressive',
+};
+
+const next = () => {
+    slickRef.value?.next();
+};
+const prev = () => {
+    slickRef.value?.prev();
+};
+
+const onAfterChange = (event: JQuery.Event, slick: JQuerySlick, currentSlide: number) => {
+    console.log(`after change event called. slide:${currentSlide}`);
+};
+const onBeforeChange = (event: JQuery.Event, slick: JQuerySlick, currentSlide: number, nextSlide: number) => {
+    console.log(`before change event called. current:${currentSlide}, next:${nextSlide}`);
+};
+const onLazyLoaded = (event: JQuery.Event, slick: JQuerySlick, image: object, imageSource: string) => {
+    console.log(`lazy loaded event called. path:${imageSource}`);
+};
+
 </script>
 
 <template>
-  <div>
-    <a href="https://vitejs.dev" target="_blank">
-      <img src="/vite.svg" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://vuejs.org/" target="_blank">
-      <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
-    </a>
-  </div>
-  <HelloWorld msg="Vite + Vue" />
+<Slick
+  ref="slickRef"
+  :options="slickOptions"
+  @afterChange="onAfterChange"
+  @beforeChange="onBeforeChange"
+  @lazyLoaded="onLazyLoaded">
+  <img data-lazy="/images/image01.png">
+  <img data-lazy="/images/image02.png">
+  <img data-lazy="/images/image03.png">
+  <img data-lazy="/images/image04.png">
+  <img data-lazy="/images/image05.png">
+</Slick>
+<button type="button" @click="prev">prev</button>
+<button type="button" @click="next">next</button>
 </template>
-
-<style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
-}
-</style>
